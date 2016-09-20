@@ -2,9 +2,11 @@ package com.abitcreative.sunshine;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.format.Time;
@@ -67,7 +69,9 @@ public class ForecastFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_refresh) {
             FetchWeatherTask task = new FetchWeatherTask();
-            task.execute("02-797,PL");
+            SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(getContext());
+            String location =prefs.getString(getString(R.string.key_location),getString(R.string.location_default_value));
+            task.execute(location);
         }
 
         return super.onOptionsItemSelected(item);
