@@ -58,9 +58,9 @@ public class DetailActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            startActivity(new Intent(this, SettingsActivity.class));
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -78,8 +78,7 @@ public class DetailActivity extends AppCompatActivity {
 
             View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
             TextView textView  = (TextView) rootView.findViewById(R.id.forecast_text);
-            String forecast = getActivity().getIntent().getStringExtra(Intent.EXTRA_TEXT);
-            textView.setText(forecast);
+            textView.setText(getActivity().getIntent().getStringExtra(Intent.EXTRA_TEXT));
             return rootView;
         }
     }
