@@ -44,8 +44,7 @@ import java.util.Locale;
  */
 public class ForecastFragment extends Fragment {
     private String LOG_TAG = ForecastFragment.class.getSimpleName();
-    String[] fakeData = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sudnday"};
-    List<String> arrayList = new ArrayList<>(Arrays.asList(fakeData));
+
 
     private ArrayAdapter<String> adapter;
 
@@ -60,6 +59,12 @@ public class ForecastFragment extends Fragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        refresh();
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.forecast_menu, menu);
@@ -68,13 +73,17 @@ public class ForecastFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_refresh) {
-            FetchWeatherTask task = new FetchWeatherTask();
-            SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(getContext());
-            String location =prefs.getString(getString(R.string.key_location),getString(R.string.location_default_value));
-            task.execute(location);
+            refresh();
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void refresh() {
+        FetchWeatherTask task = new FetchWeatherTask();
+        SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(getContext());
+        String location =prefs.getString(getString(R.string.key_location),getString(R.string.location_default_value));
+        task.execute(location);
     }
 
     @Override
@@ -83,7 +92,7 @@ public class ForecastFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_forecast, container, false);
         ListView listView = (ListView) rootView.findViewById(R.id.listview_forecast);
-        adapter = new ArrayAdapter<>(getActivity(), R.layout.list_item_forecast, R.id.list_item_textview, arrayList);
+        adapter = new ArrayAdapter<>(getActivity(), R.layout.list_item_forecast, R.id.list_item_textview, new String[]{});
 
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
