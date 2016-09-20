@@ -1,6 +1,7 @@
 package com.abitcreative.sunshine;
 
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,8 +15,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,6 +34,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 
 /**
@@ -63,7 +67,7 @@ public class ForecastFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_refresh) {
             FetchWeatherTask task = new FetchWeatherTask();
-            task.execute(new String[]{"02-797,PL"});
+            task.execute("02-797,PL");
         }
         return super.onOptionsItemSelected(item);
     }
@@ -77,6 +81,13 @@ public class ForecastFragment extends Fragment {
         adapter = new ArrayAdapter<>(getActivity(), R.layout.list_item_forecast, R.id.list_item_textview, arrayList);
 
         listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(getContext(), DetailActivity.class);
+                getActivity().startActivity(intent);
+            }
+        });
 
         return rootView;
     }
@@ -156,7 +167,7 @@ public class ForecastFragment extends Fragment {
     private String getReadableDateString(long time) {
         // Because the API returns a unix timestamp (measured in seconds),
         // it must be converted to milliseconds in order to be converted to valid date.
-        SimpleDateFormat shortenedDateFormat = new SimpleDateFormat("EEE MMM dd");
+        SimpleDateFormat shortenedDateFormat = new SimpleDateFormat("EEE MMM dd", Locale.US);
         return shortenedDateFormat.format(time);
     }
 
