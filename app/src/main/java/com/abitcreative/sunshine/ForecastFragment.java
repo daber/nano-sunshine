@@ -40,7 +40,7 @@ public class ForecastFragment extends Fragment {
     private String LOG_TAG = ForecastFragment.class.getSimpleName();
     String[] fakeData = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sudnday"};
     List<String> arrayList = new ArrayList<>(Arrays.asList(fakeData));
-    FetchWeatherTask task = new FetchWeatherTask();
+
     private ArrayAdapter<String> adapter;
 
     public ForecastFragment() {
