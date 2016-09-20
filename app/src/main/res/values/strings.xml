@@ -12,4 +12,5 @@
     <string name="key_location" translatable="false">location</string>
     <string name="location_default_value" translatable="false">02-797,pl</string>
     <string name="title_location">Location</string>
+    <string name="show_location">Show location</string>
 </resources>
